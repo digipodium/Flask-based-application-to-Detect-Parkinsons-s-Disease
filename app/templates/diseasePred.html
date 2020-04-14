@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block body %}
+<br>
+
+{% if pat: %}
+<div class="container" style="margin-top:20px;background-color:rgb(229, 231, 233);padding: 10px 20px 10px 20px;;border-radius:5px;border:1px solid black ;">
+  <form action="" method="post" enctype=multipart/form-data>
+    {% for i in range(0,pat,2) %}
+    <div class="row d-flex justify-content-center" style="margin-top:20px;"> 
+      <div class="col-md-6">
+        <div class="card" style="background-color:cadetblue; border-color:darkblue;">
+          <img src="/static/user.jpg" alt="" style="height:70px;width:70px;border:1px solid black;border-radius:100%;margin:10px auto 5px auto;">
+          <div class="card-body">
+            <h3 class="card-title">Patient {{ind[i]}}</h3>
+            <label for="pname">Name</label>
+            <input type="text" class="form-control" value="{{n[i]}}" id="" aria-describedby="helpId" style="color:dimgray; font-weight:bold;" readonly >
+            <label for="page">Age</label>
+            <input type="text" class="form-control" value="{{a[i]}}" id="" aria-describedby="helpId" style="color:dimgray; font-weight:bold;" readonly>
+            <br>
+            <div class="container" style="margin-top:10px;background-color:azure;padding: 10px 20px 10px 20px;;border-radius:5px;border:1px solid black ;">
+              <div class="row d-flex justify-content-center" style="margin-top:20px;">
+                <div class="col-md-6">
+                  <div class="card" style="border-color:black; padding: 10px 10px 10px 10px;"> 
+                    <h6 class="card-title" style="margin-right:auto;margin-left:auto;">Spiral Image</h6>
+                    <img src="{{s[i]}}" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="" style="height:150px;width:250px;margin-left:auto;margin-right:auto">
+                  </div>
+                </div>
+                <br>
+                <div class="col-md-6">
+                  <div class="card" style="border-color:black; padding: 10px 10px 10px 10px;"> 
+                    <h6 class="card-title" style="margin-right:auto;margin-left:auto;">Wave Image</h6>
+                    <img src="{{w[i]}}" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="" style="height:150px;width:250px;margin-left:auto;margin-right:auto">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if not((i==pat-1)) %}
+      <div class="col-md-6">
+        <div class="card" style="background-color:cadetblue; border-color:darkblue;">
+          <img src="/static/user.jpg" alt="" style="height:70px;width:70px;border:1px solid black;border-radius:100%;margin:10px auto 5px auto;">
+          <div class="card-body">
+            <h3 class="card-title">Patient {{ind[i+1]}}</h3>
+            <label for="pname">Name</label>
+            <input type="text" class="form-control" value="{{n[i+1]}}" id="" aria-describedby="helpId" style="color:dimgray; font-weight:bold;" readonly >
+            <label for="page">Age</label>
+            <input type="text" class="form-control" value="{{a[i+1]}}" id="" aria-describedby="helpId" style="color:dimgray; font-weight:bold;" readonly>
+            <br>
+            <div class="container" style="margin-top:10px;background-color:azure;padding: 10px 20px 10px 20px;;border-radius:5px;border:1px solid black ;">
+              <div class="row d-flex justify-content-center" style="margin-top:20px;">
+                <div class="col-md-6">
+                  <div class="card" style="border-color:black; padding: 10px 10px 10px 10px;"> 
+                    <h6 class="card-title" style="margin-right:auto;margin-left:auto;">Spiral Image</h6>
+                    <img src="{{s[i+1]}}" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="" style="height:150px;width:250px;margin-left:auto;margin-right:auto">
+                  </div>
+                </div>
+                <br>
+                <div class="col-md-6">
+                  <div class="card" style="border-color:black; padding: 10px 10px 10px 10px;"> 
+                    <h6 class="card-title" style="margin-right:auto;margin-left:auto;">Wave Image</h6>
+                    <img src="{{w[i+1]}}" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="" style="height:150px;width:250px;margin-left:auto;margin-right:auto">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </form>  
+</div>
+{% endif %}
+{% endblock body%}
+
+
