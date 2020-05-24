@@ -25,6 +25,22 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/',methods=['GET','POST'])
+
+@app.route('/login',methods=['GET', 'POST'])
+def login():
+    if request.method=='POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username and password:
+            user = User.query.filter_by(username=username).first()
+            if user is None or not user.check_password(password):
+                flash('Invalid username or password','danger')
+                return redirect(url_for('login'))
+            login_user(user, remember=True)
+            return redirect(url_for('uploaddata'))
+    return render_template('login.html', title='Sign In')
+
+
 @app.route('/upload',methods=['GET','POST'])  #it is decorator
 @login_required
 def uploaddata():
@@ -123,24 +139,6 @@ def datapredict():
    print(index,name,age,pspath,pwpath)
    return render_template('diseasePred.html',pat=p,d=dir,n=name,a=age,ind=index,s=pspath,w=pwpath)
 
-# @app.route('/index')
-# @login_required
-# def index():
-#     return render_template('index.html',title='home')
-
-@app.route('/login',methods=['GET', 'POST'])
-def login():
-    if request.method=='POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        if username and password:
-            user = User.query.filter_by(username=username).first()
-            if user is None or not user.check_password(password):
-                flash('Invalid username or password','danger')
-                return redirect(url_for('login'))
-            login_user(user, remember=True)
-            return redirect(url_for('uploaddata'))
-    return render_template('login.html', title='Sign In')
 
     
 @app.route('/register',methods=['GET', 'POST'])
@@ -213,41 +211,3 @@ def edit_profile():
         flash('Your changes have been saved.','success')
         return redirect(url_for('edit_profile'))
     return render_template('edit_profile.html', title='Edit Profile',user=user)
-
-@login_required
-@app.route('/',methods=['GET','POST'])  #it is decorator
-def uploadpredict():
-   if request.method == 'POST':
-         print("yeah")
-         print("Button press=",request.form['action'])
-
-# check if the post request has the file part
-         if 'file' not in request.files:
-            # flash('No file part')
-            print("No file part")
-            return redirect(request.url)
-         file = request.files['file']
-        # if user does not select file, browser alsode
-        # submit a empty part without filename
-         if file.filename == '':
-            # flash('No selected file')
-            print("No selected file")
-            return redirect(request.url)
-         if file :
-            filenames = secure_filename(file.filename)
-            print(os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], filenames)))
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filenames))
-            des=os.path.join(app.config['UPLOAD_FOLDER'], filenames)
-            result=predict(des)
-            tresult,lresult={},{}
-            count=0
-            for i in result.keys():
-               if count==0:
-                  tresult[i]=result[i]
-               else:
-                  lresult[i]=result[i]
-               count=+1
-            print(tresult)
-            print(lresult)
-            return render_template("animal_prediction.html",image=des,result1=tresult,result2=lresult)
-   return render_template("animal_prediction.html")
